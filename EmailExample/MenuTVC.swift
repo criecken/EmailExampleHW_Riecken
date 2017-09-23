@@ -118,7 +118,7 @@ class MenuTVC: UITableViewController {
         default:
             destVC.label = ""
         }
-        destVC.label = selectedRow
+ 
         //1. which button got pressed
         //2. up-to-date data
         

@@ -43,14 +43,18 @@ class RootTVC: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        if emails.count == 0 {
+            return 1
+        }
+        else {
         return emails.count
+        }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //TODO: react to user selecting row
         //I want the detail view controller to update based on the row that I selected
         
-        let selectedEmail = emails[indexPath.row]
 
         print("holy shit")
     }
@@ -68,25 +72,37 @@ class RootTVC: UITableViewController {
     }
     
 
-    /*
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
+    
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        var editingStyle = editingStyle
+        switch label {
+        case "Delete":
+            editingStyle = .delete
+        case "Send":
+            editingStyle = .insert
+        default:
+            self.navigationItem.rightBarButtonItem?.title = "Why?"
+            
+        }
         if editingStyle == .delete {
             // Delete the row from the data source
+            emails.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            emails.append(Email(sender: "Me@asu.edu", subject: "Please help me with code", contents: "I cannot seem to figure out my problem", recipient: "prof@asu.edu"))
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.
@@ -113,4 +129,5 @@ class RootTVC: UITableViewController {
     }
     */
 
+}
 }
