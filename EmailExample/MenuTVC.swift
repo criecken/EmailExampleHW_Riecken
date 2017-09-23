@@ -20,7 +20,7 @@ class MenuTVC: UITableViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        self.navigationItem.rightBarButtonItem = self.editButtonItem
+        //self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
@@ -110,11 +110,19 @@ class MenuTVC: UITableViewController {
         
         let destVC = segue.destination as! RootTVC
         destVC.emails = dataDictionary[selectedRow]!
-        
+        switch selectedRow {
+        case "Inbox":
+            destVC.label = "Delete"
+        case "Sent":
+            destVC.label = "Send"
+        default:
+            destVC.label = ""
+        }
+        destVC.label = selectedRow
         //1. which button got pressed
         //2. up-to-date data
         
-        print("In prepare")
+        print()
     }
     
 

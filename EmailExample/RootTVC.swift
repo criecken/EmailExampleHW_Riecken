@@ -15,16 +15,18 @@ protocol CellSelectedDelegate {
 class RootTVC: UITableViewController {
     
     var emails = [Email]()
+    var label = String()
     var delegate: CellSelectedDelegate?
-
+    //var folder = self.
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.navigationItem.rightBarButtonItem?.title = label 
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,7 +51,8 @@ class RootTVC: UITableViewController {
         //I want the detail view controller to update based on the row that I selected
         
         let selectedEmail = emails[indexPath.row]
-        delegate?.read(email: selectedEmail)
+
+        print("holy shit")
     }
 
     
