@@ -8,10 +8,24 @@
 
 import UIKit
 
-class MenuTVC: UITableViewController {
+class MenuTVC: UITableViewController, UINavigationController, UpdateEmails {
     
     var dataDictionary: [String:Array<Email>] = [:]
     var selectedRow = ""
+    func update(newEmails : Array<Email>, currentEmails : Array<Email>, updateRow : String) {
+        if updateRow == "Inbox"{
+            dataDictionary["Inbox"]? = currentEmails
+            for i in 0...newEmails.count {
+            dataDictionary["Trash"]?.append(newEmails[i])
+            }
+            
+        }
+        else {
+            for i in 0...newEmails.count {
+                dataDictionary["Sent"]?.append(newEmails[i])
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -118,6 +132,7 @@ class MenuTVC: UITableViewController {
         default:
             destVC.label = ""
         }
+        destVC.selectedRow = selectedRow
  
         //1. which button got pressed
         //2. up-to-date data

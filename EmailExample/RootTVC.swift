@@ -11,13 +11,19 @@ import UIKit
 protocol CellSelectedDelegate {
     func read(email: Email)
 }
+protocol UpdateEmails {
+    func update(newEmails : Array<Email>, currentEmails : Array<Email> , updateRow : String)
+    
+}
 
 class RootTVC: UITableViewController {
     
+    var selectedRow = String()
     var emails = [Email]()
     var label = String()
+    var changedEmails = [Email]()
+    
     var delegate: CellSelectedDelegate?
-    //var folder = self.
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,6 +32,8 @@ class RootTVC: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        
         self.navigationItem.rightBarButtonItem?.title = label 
     }
 
@@ -43,12 +51,9 @@ class RootTVC: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        if emails.count == 0 {
-            return 1
-        }
-        else {
+        
         return emails.count
-        }
+            
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -56,7 +61,7 @@ class RootTVC: UITableViewController {
         //I want the detail view controller to update based on the row that I selected
         
 
-        print("holy shit")
+        
     }
 
     
@@ -67,6 +72,7 @@ class RootTVC: UITableViewController {
         let currentEmail = emails[indexPath.row]
         cell.textLabel?.text = currentEmail.subject
         cell.detailTextLabel?.text = currentEmail.sender
+        print("set")
 
         return cell
     }
@@ -76,7 +82,13 @@ class RootTVC: UITableViewController {
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
-        return true
+        if label == "Send"{
+            return false
+        }
+        else {
+            return true
+        }
+        
     }
     
 
@@ -88,28 +100,34 @@ class RootTVC: UITableViewController {
         switch label {
         case "Delete":
             editingStyle = .delete
+       
         case "Send":
             editingStyle = .insert
+            
         default:
             self.navigationItem.rightBarButtonItem?.title = "Why?"
             
         }
         if editingStyle == .delete {
             // Delete the row from the data source
+            changedEmails.append(emails[indexPath.row])
             emails.remove(at: indexPath.row)
+            print(emails.count)
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
             emails.append(Email(sender: "Me@asu.edu", subject: "Please help me with code", contents: "I cannot seem to figure out my problem", recipient: "prof@asu.edu"))
+            changedEmails.append(emails[indexPath.row+1])
+            tableView.insertRows(at: [indexPath], with: .fade)
     }
     
 
-    /*
+        
     // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+        func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
 
     }
-    */
+        
 
     /*
     // Override to support conditional rearranging of the table view.
@@ -119,15 +137,27 @@ class RootTVC: UITableViewController {
     }
     */
 
-    /*
+        
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+            let destVC = segue.destination as! MenuTVC
+            print("here")
+            for i in 0...changedEmails.count {
+                if selectedRow == "Sent"{
+                    destVC.dataDictionary[selectedRow]?.append(changedEmails[i])
+                }
+                else {
+                    destVC.dataDictionary[selectedRow] = emails
+                    destVC.dataDictionary["Trash"]?.append(changedEmails[i])
+                }
+            }
+            
     }
-    */
+        
 
 }
 }
