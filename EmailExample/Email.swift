@@ -12,11 +12,13 @@ import Foundation
 //NEEDS: properties for sender, subject, contents; class initializer
 
 class Email {
+    let recipient : String
     let sender: String
     let subject: String
     let contents: String
     
-    init(sender: String, subject: String, contents: String) {
+    init(sender: String, subject: String, contents: String, recipient: String) {
+        self.recipient = recipient
         self.sender = sender
         self.subject = subject
         self.contents = contents

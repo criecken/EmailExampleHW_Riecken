@@ -8,10 +8,34 @@
 
 import UIKit
 
-class MenuTVC: UITableViewController {
+class MenuTVC: UITableViewController, UpdateEmails {
+    var delegate : CellSelectedDelegate?
     
     var dataDictionary: [String:Array<Email>] = [:]
     var selectedRow = ""
+    var delegateUpdate : UpdateEmails?
+    
+    func update(newEmails : Array<Email>, currentEmails : Array<Email>, updateRow : String) {
+        print("UPDATING")
+        if newEmails.count > 0 {
+        if updateRow == "Inbox"{
+            dataDictionary["Inbox"]? = currentEmails
+            
+                for i in 1...newEmails.count {
+                    dataDictionary["Trash"]?.append(newEmails[i-1])
+                }
+            
+            
+            
+            
+        }
+        else if updateRow == "Sent"{
+            for i in 1...newEmails.count {
+                dataDictionary["Sent"]?.append(newEmails[i-1])
+            }
+        }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +44,7 @@ class MenuTVC: UITableViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        //self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
@@ -110,11 +134,22 @@ class MenuTVC: UITableViewController {
         
         let destVC = segue.destination as! RootTVC
         destVC.emails = dataDictionary[selectedRow]!
-        
+        switch selectedRow {
+        case "Inbox":
+            destVC.label = "Delete"
+        case "Sent":
+            destVC.label = "Send"
+        default:
+            destVC.label = ""
+        }
+        destVC.selectedRow = selectedRow
+        destVC.delegateEmail = self.delegate
+        destVC.delegateUpdate = self.delegateUpdate
+ 
         //1. which button got pressed
         //2. up-to-date data
         
-        print("In prepare")
+        print()
     }
     
 
