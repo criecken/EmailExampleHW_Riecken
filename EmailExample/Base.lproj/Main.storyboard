@@ -105,10 +105,10 @@
             </objects>
             <point key="canvasLocation" x="1253" y="-485"/>
         </scene>
-        <!--RootTVC-->
+        <!--Root-->
         <scene sceneID="1jG-1N-zYs">
             <objects>
-                <tableViewController id="L9c-r4-5g4" customClass="RootTVC" customModule="EmailExample" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Root" id="L9c-r4-5g4" customClass="RootTVC" customModule="EmailExample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="3Lw-1q-7Dj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -144,6 +144,9 @@
                             <outlet property="delegate" destination="L9c-r4-5g4" id="nUy-yI-OWk"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="aQd-eh-QS2" kind="show" identifier="backSelected" id="mhK-bg-EIK"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0ax-63-TMw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -179,4 +182,7 @@
             <point key="canvasLocation" x="-651" y="-156"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="mhK-bg-EIK"/>
+    </inferredMetricsTieBreakers>
 </document>

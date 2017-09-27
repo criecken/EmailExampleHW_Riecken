@@ -8,22 +8,32 @@
 
 import UIKit
 
-class MenuTVC: UITableViewController, UINavigationController, UpdateEmails {
+class MenuTVC: UITableViewController, UpdateEmails {
+    var delegate : CellSelectedDelegate?
     
     var dataDictionary: [String:Array<Email>] = [:]
     var selectedRow = ""
+    var delegateUpdate : UpdateEmails?
+    
     func update(newEmails : Array<Email>, currentEmails : Array<Email>, updateRow : String) {
+        print("UPDATING")
+        if newEmails.count > 0 {
         if updateRow == "Inbox"{
             dataDictionary["Inbox"]? = currentEmails
-            for i in 0...newEmails.count {
-            dataDictionary["Trash"]?.append(newEmails[i])
-            }
+            
+                for i in 1...newEmails.count {
+                    dataDictionary["Trash"]?.append(newEmails[i-1])
+                }
+            
+            
+            
             
         }
-        else {
-            for i in 0...newEmails.count {
-                dataDictionary["Sent"]?.append(newEmails[i])
+        else if updateRow == "Sent"{
+            for i in 1...newEmails.count {
+                dataDictionary["Sent"]?.append(newEmails[i-1])
             }
+        }
         }
     }
 
@@ -133,6 +143,8 @@ class MenuTVC: UITableViewController, UINavigationController, UpdateEmails {
             destVC.label = ""
         }
         destVC.selectedRow = selectedRow
+        destVC.delegateEmail = self.delegate
+        destVC.delegateUpdate = self.delegateUpdate
  
         //1. which button got pressed
         //2. up-to-date data
